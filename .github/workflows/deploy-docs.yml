@@ -4,10 +4,12 @@ on:
   push:
     branches:
       - main
-      - assignment-5
+      - development
+      - Assign5
   pull_request:
     branches:
       - main
+      - development
 
 permissions:
   contents: read
