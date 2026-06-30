@@ -177,3 +177,13 @@ curl -X POST http://localhost:3000/api/v1/events \
   }
 }
 ```
+
+## API Documentation
+
+Full API documentation is available at:
+
+**GitHub Pages (deployed):** https://jasmine2555.github.io/Backend_M3/
+
+When running locally, access the interactive Swagger UI at:
+
+**Local Swagger UI:** http://localhost:3000/api-docs
