@@ -1,7 +1,7 @@
 {
   "name": "event-registration-api",
   "version": "1.0.0",
-  "description": "Event Registration API with Joi validation and Firestore",
+  "description": "Event Registration API with Joi validation, Firestore, OpenAPI docs, and security middleware (Helmet and CORS)",
   "main": "dist/server.js",
   "scripts": {
     "build": "tsc",
