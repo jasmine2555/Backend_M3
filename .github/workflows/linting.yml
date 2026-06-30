@@ -3,6 +3,8 @@ on:
     pull_request:
         branches:
             - main
+            - development
+            - Assign5
 jobs:
     lint:
         runs-on: ubuntu-latest
