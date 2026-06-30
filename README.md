@@ -75,3 +75,24 @@ Server is running on port 3000
 ```
 
 The API is now available at `http://localhost:3000`.
+
+## API Request Examples
+
+### Health Check
+
+**Request:**
+
+```bash
+curl -X GET http://localhost:3000/api/v1/health
+```
+
+**Response (200 OK):**
+
+```json
+{
+  "status": "OK",
+  "uptime": 12.345,
+  "timestamp": "2026-06-29T12:00:00.000Z",
+  "version": "1.0.0"
+}
+```
