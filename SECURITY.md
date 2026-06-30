@@ -1,4 +1,3 @@
-Assignment 5
 # Security Configuration
 
 This document explains the security configuration choices for the Event Registration API. Each decision is justified for an API-only backend that returns JSON and does not serve HTML pages.
