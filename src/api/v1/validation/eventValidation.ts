@@ -240,6 +240,21 @@ export const updateEventSchema = Joi.object({
     "object.min": "At least one field must be provided for update",
   });
 
+/**
+ * Joi schema for validating event ID path parameter.
+ *
+ * @openapi
+ * components:
+ *   parameters:
+ *     EventId:
+ *       in: path
+ *       name: id
+ *       required: true
+ *       schema:
+ *         type: string
+ *       description: Firestore event document ID
+ *       example: x6OGrXJ9mZ429vJrrE0
+ */
 export const eventIdSchema = Joi.object({
   id: Joi.string().trim().min(1).required().messages({
     "string.empty": "Event ID is required",
