@@ -1,0 +1,578 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Event Registration API",
+    "version": "1.0.0",
+    "description": "REST API for managing event registrations with Joi validation and Firestore persistence. Built for Module 3/5 Backend Development.",
+    "contact": {
+      "name": "API Support"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local development server"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Health",
+      "description": "Server health check endpoints"
+    },
+    {
+      "name": "Events",
+      "description": "Event CRUD operations"
+    }
+  ],
+  "paths": {
+    "/api/v1/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "summary": "Health check",
+        "description": "Returns server status, uptime, and version information",
+        "responses": {
+          "200": {
+            "description": "Server is healthy",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "OK"
+                    },
+                    "uptime": {
+                      "type": "number",
+                      "example": 3711.4152622
+                    },
+                    "timestamp": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "version": {
+                      "type": "string",
+                      "example": "1.0.0"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/events": {
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Get all events",
+        "description": "Retrieves all event records from Firestore",
+        "responses": {
+          "200": {
+            "description": "List of events retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Events retrieved"
+                    },
+                    "count": {
+                      "type": "integer",
+                      "example": 2
+                    },
+                    "data": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Event"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Create a new event",
+        "description": "Creates a new event with Joi validation and stores it in Firestore",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateEventInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Event created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Event created"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Event"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "/api/v1/events/{id}": {
+      "get": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Get event by ID",
+        "description": "Retrieves a single event by its Firestore document ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Firestore event document ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Event retrieved"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Event"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid event ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Event not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Update an event",
+        "description": "Updates an existing event by ID with partial data",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Firestore event document ID"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateEventInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Event updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Event updated"
+                    },
+                    "data": {
+                      "$ref": "#/components/schemas/Event"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Validation error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Event not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Events"
+        ],
+        "summary": "Delete an event",
+        "description": "Removes an event from Firestore by ID",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "Firestore event document ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Event deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string",
+                      "example": "Event deleted"
+                    },
+                    "data": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid event ID",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ValidationError"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Event not found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/NotFoundError"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Event": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "example": "x6OGrXJ9mZ429vJrrE0"
+          },
+          "title": {
+            "type": "string",
+            "example": "Tech Conference 2025"
+          },
+          "description": {
+            "type": "string",
+            "example": "Annual technology conference"
+          },
+          "eventType": {
+            "type": "string",
+            "enum": [
+              "workshop",
+              "conference",
+              "webinar",
+              "networking"
+            ],
+            "example": "conference"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-12-20T09:00:00.000Z"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-12-20T17:00:00.000Z"
+          },
+          "location": {
+            "type": "string",
+            "example": "Convention Center Hall A"
+          },
+          "isVirtual": {
+            "type": "boolean",
+            "example": false
+          },
+          "maxAttendees": {
+            "type": "integer",
+            "example": 500
+          },
+          "ticketPrice": {
+            "type": "number",
+            "example": 49.99
+          },
+          "isPaid": {
+            "type": "boolean",
+            "example": true
+          },
+          "organizerEmail": {
+            "type": "string",
+            "format": "email",
+            "example": "organizer@example.com"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        }
+      },
+      "CreateEventInput": {
+        "type": "object",
+        "required": [
+          "title",
+          "eventType",
+          "startDate",
+          "endDate",
+          "maxAttendees",
+          "organizerEmail"
+        ],
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 100,
+            "example": "Tech Conference 2025"
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500,
+            "example": "Annual technology conference"
+          },
+          "eventType": {
+            "type": "string",
+            "enum": [
+              "workshop",
+              "conference",
+              "webinar",
+              "networking"
+            ],
+            "example": "conference"
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-12-20T09:00:00.000Z"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time",
+            "example": "2026-12-20T17:00:00.000Z"
+          },
+          "location": {
+            "type": "string",
+            "example": "Convention Center Hall A"
+          },
+          "isVirtual": {
+            "type": "boolean",
+            "default": false
+          },
+          "maxAttendees": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000,
+            "example": 500
+          },
+          "ticketPrice": {
+            "type": "number",
+            "example": 49.99
+          },
+          "isPaid": {
+            "type": "boolean",
+            "default": false
+          },
+          "organizerEmail": {
+            "type": "string",
+            "format": "email",
+            "example": "organizer@example.com"
+          }
+        }
+      },
+      "UpdateEventInput": {
+        "type": "object",
+        "minProperties": 1,
+        "properties": {
+          "title": {
+            "type": "string",
+            "minLength": 5,
+            "maxLength": 100
+          },
+          "description": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "eventType": {
+            "type": "string",
+            "enum": [
+              "workshop",
+              "conference",
+              "webinar",
+              "networking"
+            ]
+          },
+          "startDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "endDate": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "location": {
+            "type": "string"
+          },
+          "isVirtual": {
+            "type": "boolean"
+          },
+          "maxAttendees": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 10000
+          },
+          "ticketPrice": {
+            "type": "number"
+          },
+          "isPaid": {
+            "type": "boolean"
+          },
+          "organizerEmail": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "ValidationError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Validation error: Title is required"
+          }
+        }
+      },
+      "NotFoundError": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string",
+            "example": "Event not found"
+          }
+        }
+      }
+    }
+  }
+}
