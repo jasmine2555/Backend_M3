@@ -96,3 +96,38 @@ curl -X GET http://localhost:3000/api/v1/health
   "version": "1.0.0"
 }
 ```
+
+### Get All Events
+
+**Request:**
+
+```bash
+curl -X GET http://localhost:3000/api/v1/events
+```
+
+**Response (200 OK):**
+
+```json
+{
+  "message": "Events retrieved",
+  "count": 1,
+  "data": [
+    {
+      "id": "x6OGrXJ9mZ429vJrrE0",
+      "title": "Tech Conference 2025",
+      "description": "Annual technology conference",
+      "eventType": "conference",
+      "startDate": "2026-12-20T09:00:00.000Z",
+      "endDate": "2026-12-20T17:00:00.000Z",
+      "location": "Convention Center Hall A",
+      "isVirtual": false,
+      "maxAttendees": 500,
+      "ticketPrice": 49.99,
+      "isPaid": true,
+      "organizerEmail": "organizer@example.com",
+      "createdAt": "2026-06-29T10:00:00.000Z",
+      "updatedAt": "2026-06-29T10:00:00.000Z"
+    }
+  ]
+}
+```
