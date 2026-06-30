@@ -12,7 +12,7 @@
     "generate:openapi": "ts-node scripts/generateOpenApiSpec.ts"
   },
   "keywords": ["express", "typescript", "joi", "firestore", "events"],
-  "author": "",
+  "author": "Jasmine Kaur",
   "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
