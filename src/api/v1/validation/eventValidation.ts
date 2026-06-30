@@ -1,6 +1,65 @@
 import Joi from "joi";
 import { EVENT_TYPES } from "../models/eventModel";
 
+/**
+ * Joi schema for creating a new event (POST /api/v1/events).
+ *
+ * @openapi
+ * components:
+ *   schemas:
+ *     CreateEventInput:
+ *       type: object
+ *       required:
+ *         - title
+ *         - eventType
+ *         - startDate
+ *         - endDate
+ *         - maxAttendees
+ *         - organizerEmail
+ *       properties:
+ *         title:
+ *           type: string
+ *           minLength: 5
+ *           maxLength: 100
+ *           example: Tech Conference 2025
+ *         description:
+ *           type: string
+ *           maxLength: 500
+ *           example: Annual technology conference
+ *         eventType:
+ *           type: string
+ *           enum: [workshop, conference, webinar, networking]
+ *           example: conference
+ *         startDate:
+ *           type: string
+ *           format: date-time
+ *           example: 2026-12-20T09:00:00.000Z
+ *         endDate:
+ *           type: string
+ *           format: date-time
+ *           example: 2026-12-20T17:00:00.000Z
+ *         location:
+ *           type: string
+ *           example: Convention Center Hall A
+ *         isVirtual:
+ *           type: boolean
+ *           default: false
+ *         maxAttendees:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 10000
+ *           example: 500
+ *         ticketPrice:
+ *           type: number
+ *           example: 49.99
+ *         isPaid:
+ *           type: boolean
+ *           default: false
+ *         organizerEmail:
+ *           type: string
+ *           format: email
+ *           example: organizer@example.com
+ */
 export const createEventSchema = Joi.object({
   title: Joi.string().min(5).max(100).required().messages({
     "string.empty": "Title is required",
