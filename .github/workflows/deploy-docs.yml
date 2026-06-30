@@ -45,7 +45,7 @@ jobs:
           path: docs
 
   deploy-docs:
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build-docs
     runs-on: ubuntu-latest
     environment:
