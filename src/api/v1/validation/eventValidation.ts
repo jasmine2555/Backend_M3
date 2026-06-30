@@ -135,6 +135,60 @@ export const createEventSchema = Joi.object({
   }),
 });
 
+/**
+ * Joi schema for updating an event (PUT /api/v1/events/{id}).
+ * At least one field must be provided.
+ *
+ * @openapi
+ * components:
+ *   schemas:
+ *     UpdateEventInput:
+ *       type: object
+ *       minProperties: 1
+ *       properties:
+ *         title:
+ *           type: string
+ *           minLength: 5
+ *           maxLength: 100
+ *           example: Updated Conference Title
+ *         description:
+ *           type: string
+ *           maxLength: 500
+ *           example: Updated event description
+ *         eventType:
+ *           type: string
+ *           enum: [workshop, conference, webinar, networking]
+ *           example: webinar
+ *         startDate:
+ *           type: string
+ *           format: date-time
+ *           example: 2026-12-21T09:00:00.000Z
+ *         endDate:
+ *           type: string
+ *           format: date-time
+ *           example: 2026-12-21T17:00:00.000Z
+ *         location:
+ *           type: string
+ *           example: Online Zoom Room
+ *         isVirtual:
+ *           type: boolean
+ *           example: true
+ *         maxAttendees:
+ *           type: integer
+ *           minimum: 1
+ *           maximum: 10000
+ *           example: 300
+ *         ticketPrice:
+ *           type: number
+ *           example: 29.99
+ *         isPaid:
+ *           type: boolean
+ *           example: true
+ *         organizerEmail:
+ *           type: string
+ *           format: email
+ *           example: organizer@example.com
+ */
 export const updateEventSchema = Joi.object({
   title: Joi.string().min(5).max(100).messages({
     "string.min": "Title must be at least 5 characters long",
