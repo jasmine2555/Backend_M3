@@ -9,7 +9,8 @@ const swaggerDefinition = {
     description:
       "REST API for managing event registrations with Joi validation and Firestore persistence. Built for Module 3/5 Backend Development.",
     contact: {
-      name: "API Support",
+      name: "Jasmine Kaur",
+      email: "student-0404057@example.com",
     },
   },
   servers: [
