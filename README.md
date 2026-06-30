@@ -187,3 +187,7 @@ Full API documentation is available at:
 When running locally, access the interactive Swagger UI at:
 
 **Local Swagger UI:** http://localhost:3000/api-docs
+
+## Security
+
+This API uses Helmet.js and custom CORS configuration to improve security. For full details on what was configured and why, see [SECURITY.md](./SECURITY.md).
